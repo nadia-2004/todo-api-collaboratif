@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "feature/stud2-service"]
+  pull_request:
+    branches: ["main", "feature/stud2-service"]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: maven
+
+      - name: Make Maven wrapper executable
+        run: chmod +x mvnw
+
+      - name: Run unit tests
+        run: ./mvnw -B test
+
